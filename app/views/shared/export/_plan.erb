@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -21,7 +20,11 @@
       <% if phase[:title] == @selected_phase.title %>
         <%# Page break before each phase %>
         <div style="page-break-before:always;"></div>
-        <h1><%= download_plan_page_title(@plan, phase, @hash) %></h1>
+        <h1><%= download_plan_page_title(@plan, phase, @hash)  %></h1>
+        <% if current_user.org.logo.present? %>
+          <h1><%= image_tag image_url(logo_url_for_org(current_user.org)) %></h1>
+              <% end %>
+              <h1>&nbsp;<%= current_user.org %> </h1>
         <hr />
         <% phase[:sections].each do |section| %>
           <% if display_section?(@hash[:customization], section, @show_custom_sections) && num_section_questions(@plan, section, phase) > 0 %>
@@ -55,8 +58,7 @@
                   <p><%= _('Question not answered.') -%></p>
                   <br><br>
                 <% else %>
-
-                  <%# case where Question has options %>
+ <%# case where Question has options %>
                   <% if options.present? && options.any? %>
                     <ul>
                       <% options.each do |opt| %>
